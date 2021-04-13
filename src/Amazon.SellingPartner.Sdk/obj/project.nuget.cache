@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "ZIVTg5XvCPOP+1g9O1NHiCxZXzUCh48O8Sg7WRnDGvN/A8FW9JGA04uaY0JMpdqn0RFru5h1aIxYx+Y4YwfSyg==",
+  "dgSpecHash": "GtH20v+dowlyKlbjinS7HgNYpyPQ70S+73zbri/NX5Cn1K5+S1+M9Ca/IvZgvCbHAEW5NicS30/taDpaPj4NeA==",
   "success": true,
   "projectFilePath": "D:\\Work\\ERP\\Amazon.SellingPartner.Api\\src\\Amazon.SellingPartner.Sdk\\Amazon.SellingPartner.Sdk.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
   "logs": []
 }
