@@ -15,6 +15,9 @@ namespace Amazon.SellingPartner.Sdk
     {
         public const string ValidUrlCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
         public const string SignerMethod = "AWS4-HMAC-SHA256";
+        public const string CredentialSubHeaderName = "Credential";
+        public const string SignatureSubHeaderName = "Signature";
+        public const string SignedHeadersSubHeaderName = "SignedHeaders";
         public const string TerminationString = "aws4_request";
         public const string ISO8601BasicDateTimeFormat = "yyyyMMddTHHmmssZ";
         public const string ISO8601BasicDateFormat = "yyyyMMdd";
@@ -156,7 +159,6 @@ namespace Amazon.SellingPartner.Sdk
             return map.OrderBy(p => p.Key).ToDictionary(p => p.Key, o => o.Value);
         }
 
-
         #region 构造规范URI参数
 
         /// <summary>
@@ -225,11 +227,6 @@ namespace Amazon.SellingPartner.Sdk
         /// <returns></returns>
         public static string ExtractCanonicalHeaders<T>(BaseRequest<T> request)
         {
-            //canonical_headers = 'host:' + host + '\n' + 'x-amz-date:' + amzdate + '\n'
-            //IDictionary<string, string> headers = request.Parameters
-            //    .Where(parameter => ParameterType.HttpHeader.Equals(parameter.Type))
-            //    .ToDictionary(header => header.Name.Trim().ToLowerInvariant(), header => header.Value.ToString());
-            //SortedDictionary<string, string> sortedHeaders = new SortedDictionary<string, string>(headers);
 
             var sortedHeaders = ToDictionary(request.Header);
 
@@ -244,7 +241,6 @@ namespace Amazon.SellingPartner.Sdk
 
             return headerString.ToString();
         }
-
 
         /// <summary>
         /// 构建签名的标题
@@ -281,7 +277,6 @@ namespace Amazon.SellingPartner.Sdk
             return ToHex(Hash(parametersJson.ToString()));
         } 
         #endregion
-
 
         /// <summary>
         /// 构造凭据作用域值
@@ -351,24 +346,30 @@ namespace Amazon.SellingPartner.Sdk
         /// <param name="signature">The signature to add</param>
         /// <param name="region">AWS region for the request</param>
         /// <param name="signingDate">Signature date</param>
-        public virtual void AddSignature(IRestRequest restRequest,
-                                         string accessKeyId,
-                                         string signedHeaders,
-                                         string signature,
-                                         string region,
-                                         DateTime signingDate)
+        public static string AddSignature<T>(BaseRequest<T> request)
         {
-            string scope = BuildScope(signingDate, region);
+
+            //构建规范请求
+            var CanonicalRequestHash = Util.BuildStringToSignCanonicalRequestHash(request);
+
+            //创建签名字符串
+            var StringToSign = Util.BuildStringToSign("", request.RequestDate, request.Region, request.Service, CanonicalRequestHash);
+
+            //签名计算
+            var Signature = Util.CalculateSignature(StringToSign, request.Region, request.Service, request.RequestDate, request.Config.SecretKey);
+
+            //凭据范围
+            string scope = BuildScope(request.RequestDate,request.Region,request.Service);
+
             StringBuilder authorizationHeaderValueBuilder = new StringBuilder();
-            authorizationHeaderValueBuilder.AppendFormat("{0}-{1}", Scheme, Algorithm);
-            authorizationHeaderValueBuilder.AppendFormat(" {0}={1}/{2},", CredentialSubHeaderName, accessKeyId, scope);
-            authorizationHeaderValueBuilder.AppendFormat(" {0}={1},", SignedHeadersSubHeaderName, signedHeaders);
-            authorizationHeaderValueBuilder.AppendFormat(" {0}={1}", SignatureSubHeaderName, signature);
+            authorizationHeaderValueBuilder.AppendFormat("{0}", SignerMethod);
+            authorizationHeaderValueBuilder.AppendFormat(" {0}={1}/{2},", CredentialSubHeaderName, request.Config.AccessKey, scope);
+            authorizationHeaderValueBuilder.AppendFormat(" {0}={1},", SignedHeadersSubHeaderName, ExtractCanonicalHeaders(request));
+            authorizationHeaderValueBuilder.AppendFormat(" {0}={1}", SignatureSubHeaderName, Signature);
 
-            restRequest.AddHeader(AuthorizationHeaderName, authorizationHeaderValueBuilder.ToString());
+            return authorizationHeaderValueBuilder.ToString();
+
+            //restRequest.AddHeader(AuthorizationHeaderName, authorizationHeaderValueBuilder.ToString());
         }
-
-
-
     }
 }

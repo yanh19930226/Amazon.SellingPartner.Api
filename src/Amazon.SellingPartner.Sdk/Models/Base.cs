@@ -6,13 +6,11 @@ namespace Amazon.SellingPartner.Sdk.Models
 {
     public abstract class BaseRequest<T>
     {
-        public string ClientId { get; set; } = "";
+       /// <summary>
+       /// 配置
+       /// </summary>
+        public Config Config { get; set; }
 
-        public string ClientSecret { get; set; } = "";
-
-        public string AccessKey { get; set; } = "";
-
-        public string SecretKey { get; set; } = "";
         /// <summary>
         /// 区域
         /// </summary>
@@ -39,12 +37,21 @@ namespace Amazon.SellingPartner.Sdk.Models
         /// </summary>
         public abstract string Uri { get; }
         /// <summary>
-        /// 查询字符串
+        /// 查询字符串(方法Action)
         /// </summary>
         public abstract string  QueryString{ get; }
 
     }
+    public class Config
+    {
+        public string ClientId { get; set; } = "amzn1.application-oa2-client.c2fc8f7819ba4c9987ecfb133f641d34";
 
+        public string ClientSecret { get; set; } = "c0e0d14973452e7b3f2e99f863d3998c7a65adc80fe80f4d081ff9e298acf122";
+
+        public string AccessKey { get; set; } = "V93GkqmzYh8xdYCy7WYhsYOvtEbz3/VVGpZKmdld";
+
+        public string SecretKey { get; set; } = "V93GkqmzYh8xdYCy7WYhsYOvtEbz3/VVGpZKmdld";
+    }
 
     public class RequestHeader
     {
@@ -64,9 +71,7 @@ namespace Amazon.SellingPartner.Sdk.Models
 
         public List<Error> errors { get; set; }
 
-
     }
-
 
     public class Error
     {
