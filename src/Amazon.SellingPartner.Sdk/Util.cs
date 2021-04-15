@@ -236,6 +236,7 @@ namespace Amazon.SellingPartner.Sdk
             sortedHeaders.Add(HostHeaderName, request.Header.Host);
             sortedHeaders.Add(ContentTypeHeaderName, request.Header.ContentType);
             sortedHeaders.Add(XAmzDateHeaderName, request.Header.XAmzDate.ToString(ISO8601BasicDateTimeFormat, CultureInfo.InvariantCulture));
+            //这里要排序
 
             StringBuilder headerString = new StringBuilder();
 
@@ -257,7 +258,6 @@ namespace Amazon.SellingPartner.Sdk
         public static string ExtractSignedHeaders<T>(BaseRequest<T> request)
         {
             List<string> result = new List<string>();
-            //PropertyInfo[] props = null;
             try
             {
                 Type type = request.Header.GetType();
