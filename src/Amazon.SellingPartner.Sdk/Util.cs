@@ -22,6 +22,11 @@ namespace Amazon.SellingPartner.Sdk
         public const string ISO8601BasicDateTimeFormat = "yyyyMMddTHHmmssZ";
         public const string ISO8601BasicDateFormat = "yyyyMMdd";
         public const string Slash = "/";
+
+        public const string HostHeaderName = "Host";
+        public const string XAmzDateHeaderName = "X-Amz-Date";
+        public const string ContentTypeHeaderName = "Content-Type";
+
         private readonly static Regex CompressWhitespaceRegex = new Regex("\\s+");
 
 
@@ -227,8 +232,10 @@ namespace Amazon.SellingPartner.Sdk
         /// <returns></returns>
         public static string ExtractCanonicalHeaders<T>(BaseRequest<T> request)
         {
-
-            var sortedHeaders = ToDictionary(request.Header);
+            Dictionary<string, string> sortedHeaders = new Dictionary<string, string>();
+            sortedHeaders.Add(HostHeaderName, request.Header.Host);
+            sortedHeaders.Add(ContentTypeHeaderName, request.Header.ContentType);
+            sortedHeaders.Add(XAmzDateHeaderName, request.Header.XAmzDate.ToString(ISO8601BasicDateTimeFormat, CultureInfo.InvariantCulture));
 
             StringBuilder headerString = new StringBuilder();
 
@@ -249,17 +256,26 @@ namespace Amazon.SellingPartner.Sdk
         /// <returns>List of Http headers in canonical order</returns>
         public static string ExtractSignedHeaders<T>(BaseRequest<T> request)
         {
-            PropertyInfo[] props = null;
+            List<string> result = new List<string>();
+            //PropertyInfo[] props = null;
             try
             {
                 Type type = request.Header.GetType();
                 object obj = Activator.CreateInstance(type);
-                props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                foreach (var property in props)
+                {
+                    var attr = Attribute.GetCustomAttribute(property, typeof(PropertieNameAttribute));
+                    if (attr != null)
+                    {
+                        result.Add(property.Name);
+                    }
+                }
             }
             catch (Exception ex)
             { }
 
-            List<string> rawHeaders = props.Select(header => header.Name.Trim().ToLowerInvariant())
+            List<string> rawHeaders = result.Select(header => header.Trim().ToLowerInvariant())
                                                         .ToList();
             rawHeaders.Sort(StringComparer.OrdinalIgnoreCase);
 

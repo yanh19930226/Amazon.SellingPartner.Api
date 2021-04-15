@@ -10,36 +10,22 @@ namespace Amazon.SellingPartner.Sdk.Models
        /// 配置
        /// </summary>
         public Config Config { get; set; }
-
+        /// <summary>
+        /// 请求头
+        /// </summary>
+        public RequestHeader Header { get; set; }
         /// <summary>
         /// 区域
         /// </summary>
-        public string Region { get; set; }
-       
-        /// <summary>
-        /// 服务:比如sellingpartner Api;adfee api 
-        /// </summary>
-        public string Service { get; set; }
-
-        public RequestHeader Header { get; set; }
-
-        public DateTime RequestDate { get; set; }
-        /// <summary>
-        /// 请求参数
-        /// </summary>
-        public T Parameters { get; set; }
+        public string Region { get; set; } = "us-east-1";
         /// <summary>
         /// 请求方法
         /// </summary>
         public RequestEnum RequestType { get; set; } = RequestEnum.GET;
         /// <summary>
-        /// 资源
+        /// 请求参数
         /// </summary>
-        public abstract string Uri { get; }
-        /// <summary>
-        /// 查询字符串(方法Action)
-        /// </summary>
-        public abstract string  QueryString{ get; }
+        public T Parameters { get; set; }
 
     }
     public class Config
@@ -56,16 +42,37 @@ namespace Amazon.SellingPartner.Sdk.Models
     public class RequestHeader
     {
         /// <summary>
-        /// 主机地址
+        /// 不同服务的地址:SellingPartner or Advertise etc
         /// </summary>
+        [PropertieName("Host")]
         public string Host { get; set; } = "";
         /// <summary>
         /// ContentType
         /// </summary>
+        [PropertieName("Content-Type")]
         public string ContentType { get; set; } = "application/x-www-form-urlencoded; charset=utf-8";
+        /// <summary>
+        /// RequestDate
+        /// </summary>
+        [PropertieName("X-Amz-Date")]
+        public DateTime XAmzDate { get; set; }
     }
 
-    public class BaseResponse<T>
+public class PropertieNameAttribute : Attribute
+{
+    public String Name { get; set; }
+
+    public PropertieNameAttribute()
+    {
+
+    }
+
+    public PropertieNameAttribute(String name)
+    {
+        Name = name;
+    }
+}
+public class BaseResponse<T>
     {
         public T payload { get; set; }
 
