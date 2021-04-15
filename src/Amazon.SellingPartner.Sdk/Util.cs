@@ -237,6 +237,7 @@ namespace Amazon.SellingPartner.Sdk
             sortedHeaders.Add(ContentTypeHeaderName, request.Header.ContentType);
             sortedHeaders.Add(XAmzDateHeaderName, request.Header.XAmzDate.ToString(ISO8601BasicDateTimeFormat, CultureInfo.InvariantCulture));
             //这里要排序
+            sortedHeaders=sortedHeaders.OrderBy(p => p.Key).ToDictionary(p => p.Key, o => o.Value);
 
             StringBuilder headerString = new StringBuilder();
 
