@@ -15,10 +15,6 @@ namespace Amazon.SellingPartner.Sdk.Models
         /// </summary>
         public RequestHeader Header { get; set; }
         /// <summary>
-        /// 区域
-        /// </summary>
-        public string Region { get; set; } = "us-east-1";
-        /// <summary>
         /// 请求方法
         /// </summary>
         public RequestEnum RequestType { get; set; } = RequestEnum.GET;
@@ -26,6 +22,18 @@ namespace Amazon.SellingPartner.Sdk.Models
         /// 请求参数
         /// </summary>
         public T Parameters { get; set; }
+        /// <summary>
+        /// 具体服务
+        /// </summary>
+        public  string ServiceName { get; set; } = "";
+        /// <summary>
+        /// 区域默认us-east-1
+        /// </summary>
+        public string Region { get; set; } = "us-east-1";
+        /// <summary>
+        /// 具体资源地址
+        /// </summary>
+        public virtual string Uri { get; set; } = "/";
 
     }
     public class Config
@@ -37,6 +45,14 @@ namespace Amazon.SellingPartner.Sdk.Models
         public string AccessKey { get; set; } = "V93GkqmzYh8xdYCy7WYhsYOvtEbz3/VVGpZKmdld";
 
         public string SecretKey { get; set; } = "V93GkqmzYh8xdYCy7WYhsYOvtEbz3/VVGpZKmdld";
+        /// <summary>
+        /// 具体服务
+        /// </summary>
+        public string ServiceName { get; set; } = "";
+        /// <summary>
+        /// 区域默认us-east-1
+        /// </summary>
+        public string Region { get; set; } = "us-east-1";
     }
 
     public class RequestHeader

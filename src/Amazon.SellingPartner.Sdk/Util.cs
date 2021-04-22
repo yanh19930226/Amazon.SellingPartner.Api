@@ -106,7 +106,7 @@ namespace Amazon.SellingPartner.Sdk
             canonicalizedRequest.AppendFormat("{0}\n", request.RequestType);
 
             //CanonicalURI
-            canonicalizedRequest.AppendFormat("{0}\n", ExtractCanonicalURIParameters(request.Uri));
+            canonicalizedRequest.AppendFormat("{0}\n", ExtractCanonicalURIParameters(request.Header.Host));
 
             //CanonicalQueryString
             canonicalizedRequest.AppendFormat("{0}\n", ExtractCanonicalQueryString(request));
@@ -259,6 +259,7 @@ namespace Amazon.SellingPartner.Sdk
         public static string ExtractSignedHeaders<T>(BaseRequest<T> request)
         {
             List<string> result = new List<string>();
+
             try
             {
                 Type type = request.Header.GetType();
@@ -365,18 +366,19 @@ namespace Amazon.SellingPartner.Sdk
         /// <param name="signingDate">Signature date</param>
         public static string AddSignature<T>(BaseRequest<T> request)
         {
+            var RequestDate = DateTime.UtcNow;
 
             //构建规范请求
             var CanonicalRequestHash = Util.BuildStringToSignCanonicalRequestHash(request);
 
             //创建签名字符串
-            var StringToSign = Util.BuildStringToSign("", request.RequestDate, request.Region, request.Service, CanonicalRequestHash);
+            var StringToSign = Util.BuildStringToSign(SignerMethod, RequestDate, request.Region, request.ServiceName, CanonicalRequestHash);
 
             //签名计算
-            var Signature = Util.CalculateSignature(StringToSign, request.Region, request.Service, request.RequestDate, request.Config.SecretKey);
+            var Signature = Util.CalculateSignature(StringToSign, request.Region, request.ServiceName, RequestDate, request.Config.SecretKey);
 
             //凭据范围
-            string scope = BuildScope(request.RequestDate,request.Region,request.Service);
+            string scope = BuildScope(RequestDate, request.Region,request.ServiceName);
 
             StringBuilder authorizationHeaderValueBuilder = new StringBuilder();
             authorizationHeaderValueBuilder.AppendFormat("{0}", SignerMethod);

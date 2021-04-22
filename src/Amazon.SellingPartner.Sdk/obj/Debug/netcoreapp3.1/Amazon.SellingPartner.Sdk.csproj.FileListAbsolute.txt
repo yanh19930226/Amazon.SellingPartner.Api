@@ -1,0 +1,9 @@
+D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Sdk\bin\Debug\netcoreapp3.1\Amazon.SellingPartner.Sdk.deps.json
+D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Sdk\bin\Debug\netcoreapp3.1\Amazon.SellingPartner.Sdk.dll
+D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Sdk\bin\Debug\netcoreapp3.1\Amazon.SellingPartner.Sdk.pdb
+D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Sdk\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.Sdk.csprojAssemblyReference.cache
+D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Sdk\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.Sdk.AssemblyInfoInputs.cache
+D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Sdk\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.Sdk.AssemblyInfo.cs
+D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Sdk\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.Sdk.csproj.CoreCompileInputs.cache
+D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Sdk\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.Sdk.dll
+D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Sdk\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.Sdk.pdb
