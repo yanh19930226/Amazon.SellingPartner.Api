@@ -106,7 +106,7 @@ namespace Amazon.SellingPartner.Sdk
             canonicalizedRequest.AppendFormat("{0}\n", request.RequestType);
 
             //CanonicalURI
-            canonicalizedRequest.AppendFormat("{0}\n", ExtractCanonicalURIParameters(request.Header.Host));
+            canonicalizedRequest.AppendFormat("{0}\n", ExtractCanonicalURIParameters(request));
 
             //CanonicalQueryString
             canonicalizedRequest.AppendFormat("{0}\n", ExtractCanonicalQueryString(request));
@@ -171,22 +171,22 @@ namespace Amazon.SellingPartner.Sdk
         /// </summary>
         /// <param name="Uri"></param>
         /// <returns></returns>
-        public static string ExtractCanonicalURIParameters(string Uri)
+        public static string ExtractCanonicalURIParameters<T>(BaseRequest<T> request)
         {
             string canonicalUri = string.Empty;
 
-            if (string.IsNullOrEmpty(Uri))
+            if (string.IsNullOrEmpty(request.Uri))
             {
                 canonicalUri = Slash;
             }
             else
             {
-                if (!Uri.StartsWith(Slash))
+                if (!request.Uri.StartsWith(Slash))
                 {
                     canonicalUri = Slash;
                 }
                 //Split path at / into segments
-                IEnumerable<string> encodedSegments = Uri.Split(new char[] { '/' }, StringSplitOptions.None);
+                IEnumerable<string> encodedSegments = request.Uri.Split(new char[] { '/' }, StringSplitOptions.None);
 
                 // Encode twice
                 encodedSegments = encodedSegments.Select(segment => UrlEncode(segment));
@@ -195,7 +195,9 @@ namespace Amazon.SellingPartner.Sdk
                 canonicalUri += string.Join(Slash, encodedSegments.ToArray());
             }
 
-            return canonicalUri;
+            var res= request.Config.EndPoint + canonicalUri+"?";
+
+            return res;
         }
 
         /// <summary>
@@ -259,7 +261,6 @@ namespace Amazon.SellingPartner.Sdk
         public static string ExtractSignedHeaders<T>(BaseRequest<T> request)
         {
             List<string> result = new List<string>();
-
             try
             {
                 Type type = request.Header.GetType();
@@ -267,10 +268,10 @@ namespace Amazon.SellingPartner.Sdk
                 var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
                 foreach (var property in props)
                 {
-                    var attr = Attribute.GetCustomAttribute(property, typeof(PropertieNameAttribute));
+                    var attr = property.GetCustomAttribute(typeof(PropertieNameAttribute),true) as PropertieNameAttribute;
                     if (attr != null)
                     {
-                        result.Add(property.Name);
+                        result.Add(attr.Name.ToLower());
                     }
                 }
             }
@@ -366,29 +367,28 @@ namespace Amazon.SellingPartner.Sdk
         /// <param name="signingDate">Signature date</param>
         public static string AddSignature<T>(BaseRequest<T> request)
         {
-            var RequestDate = DateTime.UtcNow;
+            var RequestDate = request.Header.XAmzDate;
 
             //构建规范请求
             var CanonicalRequestHash = Util.BuildStringToSignCanonicalRequestHash(request);
 
             //创建签名字符串
-            var StringToSign = Util.BuildStringToSign(SignerMethod, RequestDate, request.Region, request.ServiceName, CanonicalRequestHash);
+            var StringToSign = Util.BuildStringToSign(SignerMethod, RequestDate, request.Config.Region, request.Config.ServiceName, CanonicalRequestHash);
 
             //签名计算
-            var Signature = Util.CalculateSignature(StringToSign, request.Region, request.ServiceName, RequestDate, request.Config.SecretKey);
+            var Signature = Util.CalculateSignature(StringToSign, request.Config.Region, request.Config.ServiceName, RequestDate, request.Config.SecretKey);
 
             //凭据范围
-            string scope = BuildScope(RequestDate, request.Region,request.ServiceName);
+            string scope = BuildScope(RequestDate, request.Config.Region, request.Config.ServiceName);
 
             StringBuilder authorizationHeaderValueBuilder = new StringBuilder();
             authorizationHeaderValueBuilder.AppendFormat("{0}", SignerMethod);
             authorizationHeaderValueBuilder.AppendFormat(" {0}={1}/{2},", CredentialSubHeaderName, request.Config.AccessKey, scope);
-            authorizationHeaderValueBuilder.AppendFormat(" {0}={1},", SignedHeadersSubHeaderName, ExtractCanonicalHeaders(request));
+            authorizationHeaderValueBuilder.AppendFormat(" {0}={1},", SignedHeadersSubHeaderName, ExtractSignedHeaders(request));
             authorizationHeaderValueBuilder.AppendFormat(" {0}={1}", SignatureSubHeaderName, Signature);
 
             return authorizationHeaderValueBuilder.ToString();
-
-            //restRequest.AddHeader(AuthorizationHeaderName, authorizationHeaderValueBuilder.ToString());
+          
         }
     }
 }

@@ -95,3 +95,6 @@ D:\Work\ERP\Amazon.SellingPartner.Api\tests\Amazon.SellingPartner.SdkTest\obj\De
 D:\Work\ERP\Amazon.SellingPartner.Api\tests\Amazon.SellingPartner.SdkTest\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.SdkTest.dll
 D:\Work\ERP\Amazon.SellingPartner.Api\tests\Amazon.SellingPartner.SdkTest\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.SdkTest.pdb
 D:\Work\ERP\Amazon.SellingPartner.Api\tests\Amazon.SellingPartner.SdkTest\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.SdkTest.genruntimeconfig.cache
+D:\Work\ERP\Amazon.SellingPartner.Api\tests\Amazon.SellingPartner.SdkTest\bin\Debug\netcoreapp3.1\Amazon.SellingPartner.Sdk.dll
+D:\Work\ERP\Amazon.SellingPartner.Api\tests\Amazon.SellingPartner.SdkTest\bin\Debug\netcoreapp3.1\Amazon.SellingPartner.Sdk.pdb
+D:\Work\ERP\Amazon.SellingPartner.Api\tests\Amazon.SellingPartner.SdkTest\bin\Debug\netcoreapp3.1\RestSharp.dll
