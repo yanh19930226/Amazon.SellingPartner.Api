@@ -92,3 +92,4 @@ D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Api\obj\Debug\ne
 D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Api\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.Api.dll
 D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Api\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.Api.pdb
 D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Api\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.Api.genruntimeconfig.cache
+D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Api\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.Api.csprojAssemblyReference.cache

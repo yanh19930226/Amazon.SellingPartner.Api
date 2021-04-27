@@ -25,7 +25,9 @@ namespace Amazon.SellingPartner.SdkTest
             };
             var header = new RequestHeader()
             {
-                Host = "sellingpartnerapi-na.amazon.com"
+                Host = "sellingpartnerapi-na.amazon.com",
+                ContentType= "application/json; charset=utf-8",
+                XAmzAccessToken= "Atza|IwEBIEKeaolLdpj-f_DmOlFNhlx_ZtSgWnSSagsJ-RIV7c4dusozmHtfII6PSwLpdWstxJHX0L_ForMcyZ-SCXkrIyn5BTDKpMEUtrNvvTjpjo7bIv5z2t2j7GRj89w8KxF6CVAljayPiDF0eI0JxkkJyrK7O0BHMmXyTgTpBNzhRwfdAdQvH79M-8GGSCuyAXKopzhc4H0AZ2xuXLCmGWb2bHDenbcXkOx-a_DPfrOwttBiDJO-Mb6zn03heGc5nQElLN-dRKjqdpjs8ka8wCOiPhayD00hV5RflKgrUhEQPW2YlImev0ua5NaRi6pi0gIHwfAAZXQ8GI9n0dTXIFcXgm7Y"
             };
 
             _client = new SellingPartnerClient(config, header);

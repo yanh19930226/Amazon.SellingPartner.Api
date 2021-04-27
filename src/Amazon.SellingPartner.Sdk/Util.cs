@@ -25,6 +25,7 @@ namespace Amazon.SellingPartner.Sdk
 
         public const string HostHeaderName = "Host";
         public const string XAmzDateHeaderName = "X-Amz-Date";
+        public const string XAmzAccessTokenHeaderName = "X-Amz-Access-Token";
         public const string ContentTypeHeaderName = "Content-Type";
 
         private readonly static Regex CompressWhitespaceRegex = new Regex("\\s+");
@@ -236,8 +237,10 @@ namespace Amazon.SellingPartner.Sdk
             sortedHeaders.Add(HostHeaderName, request.Header.Host);
             sortedHeaders.Add(ContentTypeHeaderName, request.Header.ContentType);
             sortedHeaders.Add(XAmzDateHeaderName, request.Header.XAmzDate.ToString(ISO8601BasicDateTimeFormat, CultureInfo.InvariantCulture));
+            sortedHeaders.Add(XAmzAccessTokenHeaderName, request.Header.XAmzAccessToken);
+
             //这里要排序
-            sortedHeaders=sortedHeaders.OrderBy(p => p.Key).ToDictionary(p => p.Key, o => o.Value);
+            sortedHeaders =sortedHeaders.OrderBy(p => p.Key).ToDictionary(p => p.Key, o => o.Value);
 
             StringBuilder headerString = new StringBuilder();
 

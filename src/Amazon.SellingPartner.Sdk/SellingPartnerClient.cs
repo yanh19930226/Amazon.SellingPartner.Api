@@ -12,7 +12,6 @@ namespace Amazon.SellingPartner.Sdk
 {
     public class SellingPartnerClient:IAmazonClient
     {
-        //private HttpClient _client { get; }
 
         private readonly Config _config;
 
@@ -20,7 +19,6 @@ namespace Amazon.SellingPartner.Sdk
 
         public SellingPartnerClient(Config config, RequestHeader header)
         {
-            //_client = new HttpClient();
             _config = config;
             _header = header;
         }
@@ -53,7 +51,7 @@ namespace Amazon.SellingPartner.Sdk
 
             rq.AddHeader("X-Amz-Date", request.Header.XAmzDate.ToString(Util.ISO8601BasicDateTimeFormat, CultureInfo.InvariantCulture));
 
-            //rq.AddHeader("x-amz-access-token", request.Token);
+            rq.AddHeader("x-amz-access-token", request.Token);
 
             var httpResponse = client.Get(rq).Content;
 

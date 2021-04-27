@@ -71,12 +71,17 @@ namespace Amazon.SellingPartner.Sdk.Models
         /// ContentType
         /// </summary>
         [PropertieName("Content-Type")]
-        public string ContentType { get; set; } = "application/json; charset=utf-8";
+        public string ContentType { get; set; } /*= "application/json; charset=utf-8";*/
         /// <summary>
         /// RequestDate
         /// </summary>
         [PropertieName("X-Amz-Date")]
         public DateTime XAmzDate { get; set; } = DateTime.UtcNow;
+        /// <summary>
+        /// X-Amz-Access-Token
+        /// </summary>
+        [PropertieName("X-Amz-Access-Token")]
+        public string XAmzAccessToken { get; set; }
     }
 
     public class PropertieNameAttribute : Attribute
