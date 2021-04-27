@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace Amazon.SellingPartner.Sdk
 {
     public class SellingPartnerClient:IAmazonClient
     {
-        private HttpClient _client { get; }
+        //private HttpClient _client { get; }
 
         private readonly Config _config;
 
@@ -19,7 +20,7 @@ namespace Amazon.SellingPartner.Sdk
 
         public SellingPartnerClient(Config config, RequestHeader header)
         {
-            _client = new HttpClient();
+            //_client = new HttpClient();
             _config = config;
             _header = header;
         }
@@ -36,10 +37,7 @@ namespace Amazon.SellingPartner.Sdk
 
         #region Get
 
-        #endregion
-
-        #region Post
-        public async Task<AmazonResult<K>> PostAsync<T, K>(BaseRequest<T> request)
+        public async Task<AmazonResult<K>> GetAsync<T, K>(BaseRequest<T,K> request)
         {
             AmazonResult<K> result = new AmazonResult<K>();
 
@@ -47,43 +45,52 @@ namespace Amazon.SellingPartner.Sdk
 
             request.Header = _header;
 
-            _client.DefaultRequestHeaders.Clear();
+            var client = new RestClient(_config.EndPoint);
 
-            var auth = Util.AddSignature(request);
+            var rq = new RestRequest(_config.EndPoint + Util.ExtractCanonicalURIParameters(request) + "?" + Util.ExtractCanonicalQueryString(request));
+
+            rq.AddHeader("Authorization", Util.AddSignature(request));
+
+            rq.AddHeader("X-Amz-Date", request.Header.XAmzDate.ToString(Util.ISO8601BasicDateTimeFormat, CultureInfo.InvariantCulture));
+
+            //rq.AddHeader("x-amz-access-token", request.Token);
+
+            var httpResponse = client.Get(rq).Content;
+
+            return await Task.FromResult(result);
+
+        }
+
+        #endregion
+
+        #region Post
+
+        public async Task<AmazonResult<K>> PostAsync<T, K>(BaseRequest<T,K> request)
+        {
+            AmazonResult<K> result = new AmazonResult<K>();
+
+            request.RequestType = RequestEnum.POST;
+
+            request.Config = _config;
+
+            request.Header = _header;
 
             var client = new RestClient(_config.EndPoint);
 
-            var rq = new RestRequest(request.Uri);
+            var rq = new RestRequest(_config.EndPoint + Util.ExtractCanonicalURIParameters(request) + "?" + Util.ExtractCanonicalQueryString(request));
 
-            rq.AddHeader("Authorization", auth);
+            rq.AddHeader("Authorization", Util.AddSignature(request));
 
-            rq.AddJsonBody(JsonConvert.SerializeObject(request.Parameters));
+            rq.AddHeader("x-amz-access-token", request.Token);
 
+            //rq.AddJsonBody(JsonConvert.SerializeObject(request.Parameters));
 
             var httpResponse = client.Post(rq).Content;
 
-            _client.DefaultRequestHeaders.Add("Authorization:", Util.AddSignature(request));
-
-            var httpResponses = await _client.PostAsync(_config.EndPoint, new JsonContent(new { request.Parameters }));
-
-
-
-            //var content = await httpResponse.Content.ReadAsStringAsync();
-
-            //T obj = JsonConvert.DeserializeObject<T>(content);
-
-            //if (httpResponse.StatusCode != HttpStatusCode.OK)
-            //{
-            //    result.Failed(httpResponse.Content.ToString());
-            //}
-            //else
-            //{
-            //    result.Success(httpResponse.Content.ToString());
-            //}
-            //result.Result = obj;
-
+           
             return await Task.FromResult(result);
         }
+
         #endregion
     }
 }

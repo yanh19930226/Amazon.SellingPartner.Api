@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Amazon.SellingPartner.Sdk.Models
 {
-    public abstract class BaseRequest<T>
+    public abstract class BaseRequest<T,K>
     {
         #region Divde
         /// <summary>
@@ -17,13 +17,14 @@ namespace Amazon.SellingPartner.Sdk.Models
         public RequestHeader Header { get; set; }
         #endregion
 
-        protected BaseRequest(T Parameters)
+        protected BaseRequest(T Parameters, string token)
         {
             this.Parameters = Parameters;
+            this.Token = token;
         }
-
+        public string Token { get; set; }
         /// <summary>
-        /// 请求方法
+        /// 默认请求方法
         /// </summary>
         public RequestEnum RequestType { get; set; } = RequestEnum.GET;
         /// <summary>
@@ -31,26 +32,26 @@ namespace Amazon.SellingPartner.Sdk.Models
         /// </summary>
         public T Parameters { get; set; }
         /// <summary>
-        /// 具体资源地址
+        /// 默认具体资源地址
         /// </summary>
         public virtual string Uri { get; set; } = "/";
 
     }
     public class Config
     {
-        public string ClientId { get; set; } = "amzn1.application-oa2-client.c2fc8f7819ba4c9987ecfb133f641d34";
+        public string ClientId { get; set; }
 
-        public string ClientSecret { get; set; } = "c0e0d14973452e7b3f2e99f863d3998c7a65adc80fe80f4d081ff9e298acf122";
+        public string ClientSecret { get; set; }
 
-        public string AccessKey { get; set; } = "V93GkqmzYh8xdYCy7WYhsYOvtEbz3/VVGpZKmdld";
+        public string AccessKey { get; set; }
 
-        public string SecretKey { get; set; } = "V93GkqmzYh8xdYCy7WYhsYOvtEbz3/VVGpZKmdld";
+        public string SecretKey { get; set; }
         /// <summary>
         /// 具体服务
         /// </summary>
         public string ServiceName { get; set; }
         /// <summary>
-        /// 区域默认us-east-1
+        /// 默认区域us-east-1
         /// </summary>
         public virtual string Region { get; set; } = "us-east-1";
         /// <summary>
@@ -75,29 +76,34 @@ namespace Amazon.SellingPartner.Sdk.Models
         /// RequestDate
         /// </summary>
         [PropertieName("X-Amz-Date")]
-        public DateTime XAmzDate { get; set; }= DateTime.UtcNow;
+        public DateTime XAmzDate { get; set; } = DateTime.UtcNow;
     }
 
-public class PropertieNameAttribute : Attribute
-{
-    public String Name { get; set; }
-
-    public PropertieNameAttribute()
+    public class PropertieNameAttribute : Attribute
     {
+        public String Name { get; set; }
 
-    }
+        public PropertieNameAttribute()
+        {
 
-    public PropertieNameAttribute(String name)
-    {
-        Name = name;
+        }
+
+        public PropertieNameAttribute(String name)
+        {
+            Name = name;
+        }
     }
-}
-public class BaseResponse<T>
+    public class BaseResponse<T>
     {
         public T payload { get; set; }
 
         public List<Error> errors { get; set; }
 
+    }
+
+    public class BasePara
+    {
+        public string MarketplaceId { get; set; } = "ATVPDKIKX0DER";
     }
 
     public class Error

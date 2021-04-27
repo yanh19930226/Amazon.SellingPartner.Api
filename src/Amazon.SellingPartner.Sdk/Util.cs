@@ -98,7 +98,7 @@ namespace Amazon.SellingPartner.Sdk
         /// <typeparam name="T"></typeparam>
         /// <param name="request"></param>
         /// <returns></returns>
-        public static string BuildStringToSignCanonicalRequestHash<T>(BaseRequest<T> request)
+        public static string BuildStringToSignCanonicalRequestHash<T,K>(BaseRequest<T,K> request)
         {
 
             var canonicalizedRequest = new StringBuilder();
@@ -171,7 +171,7 @@ namespace Amazon.SellingPartner.Sdk
         /// </summary>
         /// <param name="Uri"></param>
         /// <returns></returns>
-        public static string ExtractCanonicalURIParameters<T>(BaseRequest<T> request)
+        public static string ExtractCanonicalURIParameters<T,K>(BaseRequest<T,K> request)
         {
             string canonicalUri = string.Empty;
 
@@ -195,9 +195,7 @@ namespace Amazon.SellingPartner.Sdk
                 canonicalUri += string.Join(Slash, encodedSegments.ToArray());
             }
 
-            var res= request.Config.EndPoint + canonicalUri+"?";
-
-            return res;
+            return canonicalUri;
         }
 
         /// <summary>
@@ -205,7 +203,7 @@ namespace Amazon.SellingPartner.Sdk
         /// </summary>
         /// <param name="request">RestRequest</param>
         /// <returns>Query parameters in canonical order with URL encoding</returns>
-        public static string ExtractCanonicalQueryString<T>(BaseRequest<T> request)
+        public static string ExtractCanonicalQueryString<T,K>(BaseRequest<T,K> request)
         {
             var sortedqueryParameters = ToDictionary(request.Parameters);
 
@@ -232,7 +230,7 @@ namespace Amazon.SellingPartner.Sdk
         /// <typeparam name="T"></typeparam>
         /// <param name="request"></param>
         /// <returns></returns>
-        public static string ExtractCanonicalHeaders<T>(BaseRequest<T> request)
+        public static string ExtractCanonicalHeaders<T,K>(BaseRequest<T,K> request)
         {
             Dictionary<string, string> sortedHeaders = new Dictionary<string, string>();
             sortedHeaders.Add(HostHeaderName, request.Header.Host);
@@ -258,7 +256,7 @@ namespace Amazon.SellingPartner.Sdk
         /// </summary>
         /// <param name="request">RestRequest</param>
         /// <returns>List of Http headers in canonical order</returns>
-        public static string ExtractSignedHeaders<T>(BaseRequest<T> request)
+        public static string ExtractSignedHeaders<T,K>(BaseRequest<T,K> request)
         {
             List<string> result = new List<string>();
             try
@@ -290,7 +288,7 @@ namespace Amazon.SellingPartner.Sdk
         /// </summary>
         /// <param name="request">RestRequest</param>
         /// <returns>Hexadecimal hashed value of payload in the body of request</returns>
-        public static string HashRequestBody<T>(BaseRequest<T> request)
+        public static string HashRequestBody<T,K>(BaseRequest<T,K> request)
         {
             var parametersJson = JsonConvert.SerializeObject(request.Parameters);
             return ToHex(Hash(parametersJson.ToString()));
@@ -365,7 +363,7 @@ namespace Amazon.SellingPartner.Sdk
         /// <param name="signature">The signature to add</param>
         /// <param name="region">AWS region for the request</param>
         /// <param name="signingDate">Signature date</param>
-        public static string AddSignature<T>(BaseRequest<T> request)
+        public static string AddSignature<T,K>(BaseRequest<T,K> request)
         {
             var RequestDate = request.Header.XAmzDate;
 
@@ -383,7 +381,7 @@ namespace Amazon.SellingPartner.Sdk
 
             StringBuilder authorizationHeaderValueBuilder = new StringBuilder();
             authorizationHeaderValueBuilder.AppendFormat("{0}", SignerMethod);
-            authorizationHeaderValueBuilder.AppendFormat(" {0}={1}/{2},", CredentialSubHeaderName, request.Config.AccessKey, scope);
+            authorizationHeaderValueBuilder.AppendFormat(" {0}={1}/{2},", CredentialSubHeaderName, request.Config.SecretKey, scope);
             authorizationHeaderValueBuilder.AppendFormat(" {0}={1},", SignedHeadersSubHeaderName, ExtractSignedHeaders(request));
             authorizationHeaderValueBuilder.AppendFormat(" {0}={1}", SignatureSubHeaderName, Signature);
 

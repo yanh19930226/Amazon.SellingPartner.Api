@@ -20,8 +20,8 @@ namespace Amazon.SellingPartner.SdkTest
                 ClientId= "amzn1.application-oa2-client.c2fc8f7819ba4c9987ecfb133f641d34",
                 ClientSecret= "c0e0d14973452e7b3f2e99f863d3998c7a65adc80fe80f4d081ff9e298acf122",
                 AccessKey= "V93GkqmzYh8xdYCy7WYhsYOvtEbz3/VVGpZKmdld",
-                SecretKey= "V93GkqmzYh8xdYCy7WYhsYOvtEbz3/VVGpZKmdld",
-                EndPoint= "https://ec2.amazonaws.com",
+                SecretKey= "AKIASGO577SSPQDFLQMT",
+                EndPoint= "https://sellingpartnerapi-na.amazon.com",
                 ServiceName= "ec2",
             };
             var header = new RequestHeader() {
@@ -36,15 +36,32 @@ namespace Amazon.SellingPartner.SdkTest
         /// </summary>
         /// <returns></returns>
         [Fact]
-        public async Task ClientTest()
+        public async Task ClientPostTest()
         {
             var para = new TestRequestParameter() { 
                Action= "DescribeRegions",
                Version= "2013-10-15"
             };
-           
 
-           var res= await _client.PostAsync<TestRequestParameter,string>(new TestRequest(para));
+           var res= await _client.PostAsync(new TestRequest(para,""));
+
+            Assert.Equal("", "");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task ClientGetTest()
+        {
+            var para = new TestRequestParameter()
+            {
+                Action = "DescribeRegions",
+                Version = "2013-10-15"
+            };
+
+            var res = await _client.GetAsync(new TestRequest(para,""));
 
             Assert.Equal("", "");
         }

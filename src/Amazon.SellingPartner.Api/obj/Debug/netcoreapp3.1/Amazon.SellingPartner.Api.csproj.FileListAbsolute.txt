@@ -79,7 +79,6 @@ D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Api\bin\Debug\ne
 D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Api\bin\Debug\netcoreapp3.1\Core.dll
 D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Api\bin\Debug\netcoreapp3.1\zipkin4net.dll
 D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Api\bin\Debug\netcoreapp3.1\zh\DotNetCore.CAP.Dashboard.resources.dll
-D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Api\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.Api.csprojAssemblyReference.cache
 D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Api\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.Api.AssemblyInfoInputs.cache
 D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Api\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.Api.AssemblyInfo.cs
 D:\Work\ERP\Amazon.SellingPartner.Api\src\Amazon.SellingPartner.Api\obj\Debug\netcoreapp3.1\Amazon.SellingPartner.Api.csproj.CoreCompileInputs.cache
