@@ -49,6 +49,8 @@ namespace Amazon.SellingPartner.Sdk
           
             var data = JsonConvert.DeserializeObject<K>(httpResponse);
 
+            result.Success(data,"");
+
             return await Task.FromResult(result);
 
         }

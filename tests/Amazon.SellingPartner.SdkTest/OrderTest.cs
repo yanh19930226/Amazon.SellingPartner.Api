@@ -28,14 +28,14 @@ namespace Amazon.SellingPartner.SdkTest
             {
                 Host = "sellingpartnerapi-na.amazon.com",
                 //ContentType= "application/json; charset=utf-8",
-                XAmzAccessToken= "Atza|IwEBIKfmTCxqXAgcJsbxK_WatCD_u_dFuBz-fKMHeeniE_kb7OlyJhiwNWHMI-GUFhFDoeSPGqaP_5HAP52Glr7_nTB0-_EZ_uJm0GWl2xx1cS8BBtSdyIkl-PsgMGOCdKvMB2AmHxdTEwgK2KgIGr2e680hw1L6ukP-rwKxDtCfxIx9olc4tODS_G5EPBXApAcESWjdNEhpbgJG6im2RfOQoYANdAFNKjZHeAfLCZ4XLnSydmEQnAWBlRAPef6ECVjScQtBW4xjeVaSXM8wiwfz4QcyrueLYk_69fqdTyrs8DGGOrAPupR7H_mJC2SpIxIVi_vmRpEDGZaEAcee-l6MhtW6"
+                XAmzAccessToken= "Atza|IwEBIBnUKyHtmFz9Iqadvb1qWRVuWlJ08AJlWbyi6bk3g7QNRGfSOWDkPclYYaJEjdGv4xxrlgDzjTRHjDeoEE6LA1EWYbdQRiUROcVkAC0ZVGN977Wolcuf_YCz1gUnIHBfAFQhWKaFYnFHYs1xwYUO3bq-m301JJ-327C07GSnwEkof4ecaKa8qMOh6ie4t7upWjVO7szXb2TdPijLIaaKo67KwZdC-9f715PQzd8vRLpC9IuaNBTs4shxJl9lShjk_Ho_He0ySTSju_if1qDN5rPD-nakmOjVkbgENePWuddf9p-oP-HFt2DNBcKrXlfpgx94R-OJRwRRoUGfWgyUMaBZ"
             };
 
             _client = new SellingPartnerClient(config, header);
         }
 
         /// <summary>
-        /// 
+        /// Id获取订单
         /// </summary>
         /// <returns></returns>
         [Fact]
@@ -43,17 +43,50 @@ namespace Amazon.SellingPartner.SdkTest
         {
             var para = new GetOrderByIdRequestPara()
             {
-
+                
             };
 
-            var res = await _client.GetAsync(new GetOrderByIdRequest("12333",para, ""));
+            var res = await _client.GetAsync(new GetOrderByIdRequest("112-8204866-3349817", para, "Atza|IwEBIBnUKyHtmFz9Iqadvb1qWRVuWlJ08AJlWbyi6bk3g7QNRGfSOWDkPclYYaJEjdGv4xxrlgDzjTRHjDeoEE6LA1EWYbdQRiUROcVkAC0ZVGN977Wolcuf_YCz1gUnIHBfAFQhWKaFYnFHYs1xwYUO3bq-m301JJ-327C07GSnwEkof4ecaKa8qMOh6ie4t7upWjVO7szXb2TdPijLIaaKo67KwZdC-9f715PQzd8vRLpC9IuaNBTs4shxJl9lShjk_Ho_He0ySTSju_if1qDN5rPD-nakmOjVkbgENePWuddf9p-oP-HFt2DNBcKrXlfpgx94R-OJRwRRoUGfWgyUMaBZ"));
 
             Assert.Equal("", "");
         }
 
+        /// <summary>
+        /// Id获取订单买家
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task getOrderBuyerInfo()
+        {
+            var para = new GetOrderBuyerInfoRequestPara()
+            {
+
+            };
+
+            var res = await _client.GetAsync(new GetOrderBuyerInfoRequest("112-8204866-3349817", para, "Atza|IwEBIBnUKyHtmFz9Iqadvb1qWRVuWlJ08AJlWbyi6bk3g7QNRGfSOWDkPclYYaJEjdGv4xxrlgDzjTRHjDeoEE6LA1EWYbdQRiUROcVkAC0ZVGN977Wolcuf_YCz1gUnIHBfAFQhWKaFYnFHYs1xwYUO3bq-m301JJ-327C07GSnwEkof4ecaKa8qMOh6ie4t7upWjVO7szXb2TdPijLIaaKo67KwZdC-9f715PQzd8vRLpC9IuaNBTs4shxJl9lShjk_Ho_He0ySTSju_if1qDN5rPD-nakmOjVkbgENePWuddf9p-oP-HFt2DNBcKrXlfpgx94R-OJRwRRoUGfWgyUMaBZ"));
+
+            Assert.Equal("", "");
+        }
 
         /// <summary>
-        /// 
+        /// Id获取订单地址
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task getGetOrderAddress()
+        {
+            var para = new GetOrderAddressRequestPara()
+            {
+
+            };
+
+            var res = await _client.GetAsync(new GetOrderAddressRequest("112-8204866-3349817", para, "Atza|IwEBIBnUKyHtmFz9Iqadvb1qWRVuWlJ08AJlWbyi6bk3g7QNRGfSOWDkPclYYaJEjdGv4xxrlgDzjTRHjDeoEE6LA1EWYbdQRiUROcVkAC0ZVGN977Wolcuf_YCz1gUnIHBfAFQhWKaFYnFHYs1xwYUO3bq-m301JJ-327C07GSnwEkof4ecaKa8qMOh6ie4t7upWjVO7szXb2TdPijLIaaKo67KwZdC-9f715PQzd8vRLpC9IuaNBTs4shxJl9lShjk_Ho_He0ySTSju_if1qDN5rPD-nakmOjVkbgENePWuddf9p-oP-HFt2DNBcKrXlfpgx94R-OJRwRRoUGfWgyUMaBZ"));
+
+            Assert.Equal("", "");
+        }
+
+        /// <summary>
+        /// 获取订单列表
         /// </summary>
         /// <returns></returns>
         [Fact]
@@ -69,7 +102,7 @@ namespace Amazon.SellingPartner.SdkTest
                 //NextToken = ""
             };
 
-            var res = await _client.GetAsync(new GetOrderListRequest(para, "Atza|IwEBIKfmTCxqXAgcJsbxK_WatCD_u_dFuBz-fKMHeeniE_kb7OlyJhiwNWHMI-GUFhFDoeSPGqaP_5HAP52Glr7_nTB0-_EZ_uJm0GWl2xx1cS8BBtSdyIkl-PsgMGOCdKvMB2AmHxdTEwgK2KgIGr2e680hw1L6ukP-rwKxDtCfxIx9olc4tODS_G5EPBXApAcESWjdNEhpbgJG6im2RfOQoYANdAFNKjZHeAfLCZ4XLnSydmEQnAWBlRAPef6ECVjScQtBW4xjeVaSXM8wiwfz4QcyrueLYk_69fqdTyrs8DGGOrAPupR7H_mJC2SpIxIVi_vmRpEDGZaEAcee-l6MhtW6"));
+            var res = await _client.GetAsync(new GetOrderListRequest(para, "Atza|IwEBIBnUKyHtmFz9Iqadvb1qWRVuWlJ08AJlWbyi6bk3g7QNRGfSOWDkPclYYaJEjdGv4xxrlgDzjTRHjDeoEE6LA1EWYbdQRiUROcVkAC0ZVGN977Wolcuf_YCz1gUnIHBfAFQhWKaFYnFHYs1xwYUO3bq-m301JJ-327C07GSnwEkof4ecaKa8qMOh6ie4t7upWjVO7szXb2TdPijLIaaKo67KwZdC-9f715PQzd8vRLpC9IuaNBTs4shxJl9lShjk_Ho_He0ySTSju_if1qDN5rPD-nakmOjVkbgENePWuddf9p-oP-HFt2DNBcKrXlfpgx94R-OJRwRRoUGfWgyUMaBZ"));
 
             Assert.Equal("", "");
         }
