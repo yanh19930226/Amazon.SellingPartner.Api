@@ -14,7 +14,7 @@ namespace Amazon.SellingPartner.Sdk.Models.Orders
         public override string Uri => "/orders/v0/orders";
     }
 
-    public class GetOrderListRequestPara : BasePara
+    public class GetOrderListRequestPara : SellingPartnerApiBasePara
     {
         public string CreatedBefore { get; set; }
         public string CreatedAfter { get; set; }
@@ -27,6 +27,6 @@ namespace Amazon.SellingPartner.Sdk.Models.Orders
 
     public class GetOrderListResponse
     {
-
+        public List<Order> Orders { get; set; }
     }
 }

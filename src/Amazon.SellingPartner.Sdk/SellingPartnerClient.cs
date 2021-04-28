@@ -23,16 +23,6 @@ namespace Amazon.SellingPartner.Sdk
             _header = header;
         }
 
-        #region Private
-        private class JsonContent : StringContent
-        {
-            public JsonContent(object obj) :
-            base(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json")
-            { }
-        }
-
-        #endregion
-
         #region Get
 
         public async Task<AmazonResult<K>> GetAsync<T, K>(BaseRequest<T,K> request)
@@ -49,11 +39,15 @@ namespace Amazon.SellingPartner.Sdk
 
             rq.AddHeader("Authorization", Util.AddSignature(request));
 
-            rq.AddHeader("X-Amz-Date", request.Header.XAmzDate.ToString(Util.ISO8601BasicDateTimeFormat, CultureInfo.InvariantCulture));
+            rq.AddHeader("host", request.Header.Host);
+
+            rq.AddHeader("x-amz-date", request.Header.XAmzDate.ToString(Util.ISO8601BasicDateTimeFormat, CultureInfo.InvariantCulture));
 
             rq.AddHeader("x-amz-access-token", request.Token);
 
             var httpResponse = client.Get(rq).Content;
+          
+            var data = JsonConvert.DeserializeObject<K>(httpResponse);
 
             return await Task.FromResult(result);
 
@@ -79,9 +73,11 @@ namespace Amazon.SellingPartner.Sdk
 
             rq.AddHeader("Authorization", Util.AddSignature(request));
 
+            rq.AddHeader("x-amz-date", request.Header.XAmzDate.ToString(Util.ISO8601BasicDateTimeFormat, CultureInfo.InvariantCulture));
+
             rq.AddHeader("x-amz-access-token", request.Token);
 
-            //rq.AddJsonBody(JsonConvert.SerializeObject(request.Parameters));
+            rq.AddJsonBody(JsonConvert.SerializeObject(request.Parameters));
 
             var httpResponse = client.Post(rq).Content;
 

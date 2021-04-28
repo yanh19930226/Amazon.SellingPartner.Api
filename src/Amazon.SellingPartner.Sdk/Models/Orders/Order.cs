@@ -15,26 +15,14 @@ namespace Amazon.SellingPartner.Sdk.Models.Orders
         public override string Uri => "/orders/v0/orders/"+ OrderId;
     }
 
-    public class GetOrderByIdResponse
+    
+
+    public class GetOrderByIdResponse: Order
     {
-        public string AmazonOrderId { get; set; }
-
-        public string PurchaseDate { get; set; }
-
-        public string LastUpdateDate { get; set; }
-
-        public string OrderStatus { get; set; }
-
-        public string SellerOrderId { get; set; }
-
-        public string FulfillmentChannel { get; set; }
-
-        public string SalesChannel { get; set; }
-
-        public string ShipServiceLevel { get; set; }
+        
     }
 
-    public class GetOrderByIdRequestPara: BasePara
+    public class GetOrderByIdRequestPara: SellingPartnerApiBasePara
     {
 
     }

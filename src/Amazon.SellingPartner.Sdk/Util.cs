@@ -235,7 +235,7 @@ namespace Amazon.SellingPartner.Sdk
         {
             Dictionary<string, string> sortedHeaders = new Dictionary<string, string>();
             sortedHeaders.Add(HostHeaderName, request.Header.Host);
-            sortedHeaders.Add(ContentTypeHeaderName, request.Header.ContentType);
+            //sortedHeaders.Add(ContentTypeHeaderName, request.Header.ContentType);
             sortedHeaders.Add(XAmzDateHeaderName, request.Header.XAmzDate.ToString(ISO8601BasicDateTimeFormat, CultureInfo.InvariantCulture));
             sortedHeaders.Add(XAmzAccessTokenHeaderName, request.Header.XAmzAccessToken);
 
@@ -293,8 +293,17 @@ namespace Amazon.SellingPartner.Sdk
         /// <returns>Hexadecimal hashed value of payload in the body of request</returns>
         public static string HashRequestBody<T,K>(BaseRequest<T,K> request)
         {
-            var parametersJson = JsonConvert.SerializeObject(request.Parameters);
-            return ToHex(Hash(parametersJson.ToString()));
+            //post 请求body参数加密
+            if (request.RequestType== RequestEnum.POST)
+            {
+                var parametersJson = JsonConvert.SerializeObject(request.Parameters);
+                return ToHex(Hash(parametersJson.ToString()));
+            }
+            else
+            {
+                string value = string.Empty;
+                return ToHex(Hash(value));
+            }
         } 
         #endregion
 
@@ -384,7 +393,7 @@ namespace Amazon.SellingPartner.Sdk
 
             StringBuilder authorizationHeaderValueBuilder = new StringBuilder();
             authorizationHeaderValueBuilder.AppendFormat("{0}", SignerMethod);
-            authorizationHeaderValueBuilder.AppendFormat(" {0}={1}/{2},", CredentialSubHeaderName, request.Config.SecretKey, scope);
+            authorizationHeaderValueBuilder.AppendFormat(" {0}={1}/{2},", CredentialSubHeaderName, request.Config.AccessKey, scope);
             authorizationHeaderValueBuilder.AppendFormat(" {0}={1},", SignedHeadersSubHeaderName, ExtractSignedHeaders(request));
             authorizationHeaderValueBuilder.AppendFormat(" {0}={1}", SignatureSubHeaderName, Signature);
 

@@ -68,11 +68,6 @@ namespace Amazon.SellingPartner.Sdk.Models
         [PropertieName("Host")]
         public string Host { get; set; }
         /// <summary>
-        /// ContentType
-        /// </summary>
-        [PropertieName("Content-Type")]
-        public string ContentType { get; set; } /*= "application/json; charset=utf-8";*/
-        /// <summary>
         /// RequestDate
         /// </summary>
         [PropertieName("X-Amz-Date")]
@@ -105,12 +100,6 @@ namespace Amazon.SellingPartner.Sdk.Models
         public List<Error> errors { get; set; }
 
     }
-
-    public class BasePara
-    {
-        public string MarketplaceId { get; set; } = "ATVPDKIKX0DER";
-    }
-
     public class Error
     {
         public string code { get; set; }
@@ -118,4 +107,14 @@ namespace Amazon.SellingPartner.Sdk.Models
 
         public string details { get; set; }
     }
+
+    /// <summary>
+    /// Selling Partner Api 的基本参数
+    /// </summary>
+    public class SellingPartnerApiBasePara
+    {
+        public string MarketplaceIds { get; set; } = "ATVPDKIKX0DER";
+    }
+
+    
 }
